@@ -1139,7 +1139,11 @@ function shRecord(id,outcome){var S=shS(),p=S.q[id]=S.q[id]||{att:0,hints:0,step
   S.pdays=S.pdays||{};S.pdays[TODAY]=(S.pdays[TODAY]||0)+1;S.pdt=S.pdt||{};var pk=(id.indexOf("m-")===0?"ml|":"tr|")+TODAY;S.pdt[pk]=(S.pdt[pk]||0)+1;save("sharp");}
 function shOpen(id){SH.open=id;SH.hint=0;SH.t0=Date.now();SH.shown=false;SH.wrong=0;SH.msg="";
   var p=shQ(id),tab=id.indexOf("m-")===0?"mlbank":"sbank";if(p){p.att=(p.att||0)+1;}if(CUR!==tab){go(tab);SH.open=id;shRedrawBank();}else shRedrawBank();window.scrollTo(0,0);}
-function shCheckVal(it,v){var a=+it.answer_value;if(it.answer_type==="estimate"){var f=+it.tol_factor||3;return v>0&&a>0&&v/a<=f&&a/v<=f;}return Math.abs(v-a)<=Math.max(1e-4,Math.abs(a)*1e-3);}
+function shSig(raw){return String(raw||"").trim().replace(/^[-−]/,"").replace(/^0*\.?0*/,"").replace(".","").length;}
+/* right if within 0.1%, or if it is the answer correctly rounded to the decimals typed and has at least 3 significant figures (0.154 for 0.153846) */
+function shCheckVal(it,v,raw){var a=+it.answer_value;if(it.answer_type==="estimate"){var f=+it.tol_factor||3;return v>0&&a>0&&v/a<=f&&a/v<=f;}
+  if(Math.abs(v-a)<=Math.max(1e-4,Math.abs(a)*1e-3))return true;
+  var m=String(raw||"").trim().replace(",",".").match(/^[-−]?\d*\.(\d+)$/);return !!m&&shSig(raw)>=3&&Math.abs(v-a)<=0.5*Math.pow(10,-m[1].length)+1e-12;}
 function shSolveView(it){var p=shQ(it.id)||{},auto=it.answer_type==="numeric"||it.answer_type==="estimate",done=SH.shown,hints=it.hints||[],h='';
   for(var i=0;i<SH.hint&&i<hints.length;i++)h+='<div class="sh-hint tex"><b>Hint '+(i+1)+'.</b> '+esc(hints[i])+'</div>';
   var hb=SH.hint<hints.length?'<button class="mini" data-shhint="1">Hint '+(SH.hint+1)+' of '+hints.length+'</button>':'';
@@ -1217,8 +1221,8 @@ document.addEventListener("click",function(ev){var t=ev.target&&ev.target.closes
   var it=shBankById(SH.open);if(!it)return;
   if(d.shhint){SH.hint++;shRedrawBank();return;}
   if(d.shcheck){var inp=el("sh-qa"),x=shParse(inp&&inp.value);if(!x){SH.msg="Type a number or a fraction like 3/8.";shRedrawBank();return;}
-    if(shCheckVal(it,x.v)){SH.shown=true;SH.msg="";shRecord(it.id,"solved");toast(it.answer_type==="estimate"?"Close enough":"Correct");}
-    else{SH.wrong++;var p=S.q[it.id]=S.q[it.id]||{att:1,hints:0,step:0};if(p.st!=="solved")p.st="attempted";p.last=TODAY;SH.msg=it.answer_type==="estimate"?"Not within range yet. Rethink your assumptions, take a hint, or reveal.":"Not quite. Try again, take a hint, or reveal the solution.";save("sharp");}return;}
+    if(shCheckVal(it,x.v,inp&&inp.value)){SH.shown=true;SH.msg="";shRecord(it.id,"solved");toast(it.answer_type==="estimate"?"Close enough":"Correct");}
+    else{SH.wrong++;var p=S.q[it.id]=S.q[it.id]||{att:1,hints:0,step:0};if(p.st!=="solved")p.st="attempted";p.last=TODAY;var av=+it.answer_value;SH.msg=it.answer_type==="estimate"?"Not within range yet. Rethink your assumptions, take a hint, or reveal.":(av&&Math.abs(x.v-av)<=Math.abs(av)*0.02&&shSig(inp&&inp.value)<3&&x.d===undefined?"Close. Give at least 3 significant figures (like 0.154), or an exact fraction.":"Not quite. Try again, take a hint, or reveal the solution.");save("sharp");}return;}
   if(d.shreveal){SH.shown=true;shRecord(it.id,"revealed");return;}
   if(d.shshow){SH.shown=true;shRedrawBank();return;}
   if(d.shmark){var p2=S.q[it.id]=S.q[it.id]||{att:1,hints:0,step:0};p2.judged=true;shRecord(it.id,d.shmark==="solved"?"solved":"missed");return;}});
