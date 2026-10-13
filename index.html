@@ -1149,6 +1149,13 @@ function shFmt(it){var v=+it.answer_value,p=it.answer_type==="estimate"?"An esti
 function shCheckVal(it,v,raw){var a=+it.answer_value;if(it.answer_type==="estimate"){var f=+it.tol_factor||3;return v>0&&a>0&&v/a<=f&&a/v<=f;}
   if(Math.abs(v-a)<=Math.max(1e-4,Math.abs(a)*1e-3))return true;
   var m=String(raw||"").trim().replace(",",".").match(/^[-−]?\d*\.(\d+)$/);return !!m&&shSig(raw)>=3&&Math.abs(v-a)<=0.5*Math.pow(10,-m[1].length)+1e-12;}
+/* "Next question": the first unsolved question in the chosen course, easiest level first (basics → easy → medium → hard), else one due for review */
+function shNextQ(){shLoadBank();var pool=shLadder(SH.bank.filter(function(i){return (!SH.f.cat||i.category===SH.f.cat)&&(!SH.f.kind||i.kind===SH.f.kind);}));
+  var nx=pool.filter(function(i){return shStatus(i.id)==="unsolved";})[0]||pool.filter(function(i){var p=shQ(i.id);return p&&p.due&&p.due<=TODAY;})[0];
+  if(!nx){toast("Everything here is solved. Pick another course or review what’s due.");return;}shOpen(nx.id);}
+/* after a wrong try, a reveal or a solve: links to the concept pages that teach it */
+function shLearn(it){var p=shQ(it.id)||{};if(!it.learn||!it.learn.length||!(SH.shown||p.st))return "";
+  return '<div class="sh-links"><span class="small muted">Re-learn:</span>'+it.learn.map(function(c){return '<button class="mini" data-cpage="'+esc(c[0])+'">'+esc(c[1])+' ↗</button>';}).join("")+'</div>';}
 function shSolveView(it){var p=shQ(it.id)||{},auto=it.answer_type==="numeric"||it.answer_type==="estimate",done=SH.shown,hints=it.hints||[],h='';
   for(var i=0;i<SH.hint&&i<hints.length;i++)h+='<div class="sh-hint tex"><b>Hint '+(i+1)+'.</b> '+esc(hints[i])+'</div>';
   var hb=SH.hint<hints.length?'<button class="mini" data-shhint="1">Hint '+(SH.hint+1)+' of '+hints.length+'</button>':'';
@@ -1160,9 +1167,9 @@ function shSolveView(it){var p=shQ(it.id)||{},auto=it.answer_type==="numeric"||i
     (it.answer_type==="free-text"&&!p.judged?'<div class="cm-acts" style="margin-top:12px"><span class="small">Did your answer cover it?</span><button class="btn" data-shmark="solved">Yes</button><button class="mini" data-shmark="missed">Not quite</button></div>':'')+'</div>';
   return '<div class="card"><div class="card-h"><h2>'+esc(it.title)+'</h2><span class="small"><span id="sh-clock">0:00</span></span></div>'+
     '<p class="small muted" style="margin-bottom:10px">'+(it.kind?'<span class="sh-kind">'+esc(ML_KINDS[it.kind]||it.kind)+'</span> ':'')+esc(shCatName(it.category))+' · '+esc(it.difficulty)+(p.st?' · '+esc(p.st):'')+(it.origin&&it.origin!=="original"?' · '+esc(it.origin):'')+'</p>'+
-    '<div class="tex sh-prompt">'+esc(it.prompt)+'</div>'+shLinks(it)+h+ask+'</div>'+sol;}
+    '<div class="tex sh-prompt">'+esc(it.prompt)+'</div>'+shLinks(it)+h+ask+shLearn(it)+'</div>'+sol;}
 function shRow(i){var st=shStatus(i.id),col={unsolved:"var(--line-strong)",attempted:"var(--warn)",solved:"var(--ok)",revealed:"var(--bad)"}[st];
-  return '<button data-shopen="'+esc(i.id)+'"><span class="cm-dot" style="background:'+(st==="unsolved"?"var(--surface)":col)+';border-color:'+col+'"></span><span>'+esc(i.title)+'</span><span class="muted">'+(i.kind?esc(ML_KINDS[i.kind]||i.kind)+' · ':'')+esc(shCatName(i.category))+' · '+esc(i.difficulty)+'</span></button>';}
+  return '<button data-shopen="'+esc(i.id)+'"><span class="cm-dot" style="background:'+(st==="unsolved"?"var(--surface)":col)+';border-color:'+col+'"></span><span class="tex">'+esc(i.title)+'</span><span class="muted">'+(i.kind?esc(ML_KINDS[i.kind]||i.kind)+' · ':'')+esc(shCatName(i.category))+' · '+esc(i.difficulty)+'</span></button>';}
 function shBankView(){shLoadBank();
   if(SH.open){var it=shBankById(SH.open);if(it)return '<div class="cm-acts" style="margin-bottom:10px"><button class="mini" data-shback="1">‹ All questions</button></div>'+shSolveView(it);}
   if(!SH.bank.length)return '<div class="card"><p class="small muted">'+(shIsML()?'The ML questions are being written from your courses and past exams. They appear here as soon as they’re added.':'The question bank is being written. It appears here as soon as it’s added.')+'</p></div>';
@@ -1173,7 +1180,7 @@ function shBankView(){shLoadBank();
   var solved=SH.bank.filter(function(i){return shStatus(i.id)==="solved";}).length,due=shDueItems();
   var tools='<div class="card"><div class="cm-tools"><input type="search" id="sh-search" placeholder="Search questions" value="'+esc(SH.q)+'" aria-label="Search questions">'+
     sel("cat",cats,shIsML()?"Course":"Topic")+(shIsML()?sel("kind",Object.keys(ML_KINDS).map(function(k){return [k,ML_KINDS[k]];}),"Kind"):"")+sel("diff",[["easy","Easy"],["medium","Medium"],["hard","Hard"]],"Difficulty")+sel("st",[["unsolved","Unsolved"],["attempted","Attempted"],["solved","Solved"],["revealed","Revealed"]],"Status")+
-    (shIsML()?'<button class="btn" data-shnextq="1">Next for me</button><button class="mini" data-shrandom="1">Random</button>':'<button class="btn" data-shrandom="1">Random unsolved</button>')+'</div><p class="small muted" style="margin:8px 0 0">'+SH.bank.length+' questions · '+solved+' solved · '+due.length+' due for review'+(shIsML()?' · “Next for me” climbs from basics to exam level'+(F.cat?' in '+esc(ML_CATS[F.cat]||F.cat):'')+'.':'')+'</p>'+
+    (shIsML()?'<button class="btn" data-shnextq="1" title="Your next unsolved question in this course, easiest first">Next question</button><button class="mini" data-shrandom="1">Random</button>':'<button class="btn" data-shrandom="1">Random unsolved</button>')+'</div><p class="small muted" style="margin:8px 0 0">'+SH.bank.length+' questions · '+solved+' solved · '+due.length+' due for review'+(shIsML()?' · “Next question” gives you the next unsolved one, easiest first: basics → easy → medium → hard'+(F.cat?' in '+esc(ML_CATS[F.cat]||F.cat):'')+'.':'')+'</p>'+
     (shIsML()?'<div class="small muted" style="margin-top:8px">Your path'+(F.cat?' in '+esc(ML_CATS[F.cat]||F.cat):'')+':</div>'+shPath(SH.bank.filter(function(i){return !F.cat||i.category===F.cat;})):'')+'</div>';
   var dueC=due.length?'<div class="card"><div class="card-h"><h2>Due for review</h2><span class="small">'+due.length+'</span></div><div class="cm-list all">'+due.map(shRow).join("")+'</div></div>':'';
   return tools+dueC+'<div class="card"><div class="card-h"><h2>Questions</h2><span class="small">'+list.length+' shown</span></div><div class="cm-list all sh-list">'+(list.length?list.map(shRow).join(""):'<p class="small muted">No question matches.</p>')+'</div></div>';}
@@ -1218,9 +1225,7 @@ document.addEventListener("click",function(ev){var t=ev.target&&ev.target.closes
   if(d.shlesson!==undefined){SH.lesson=d.shlesson;SH.last=null;renderSharp();window.scrollTo(0,0);return;}
   if(d.shlearn){var LL=S.lessons=S.lessons||{};LL[d.shlearn]=LL[d.shlearn]?null:TODAY;save("sharp");return;}
   if(d.shopen){shOpen(d.shopen);return;}
-  if(d.shnextq){shLoadBank();var pool=shLadder(SH.bank.filter(function(i){return (!SH.f.cat||i.category===SH.f.cat)&&(!SH.f.kind||i.kind===SH.f.kind);}));
-    var nx=pool.filter(function(i){return shStatus(i.id)==="unsolved";})[0]||pool.filter(function(i){var p=shQ(i.id);return p&&p.due&&p.due<=TODAY;})[0];
-    if(!nx){toast("Everything here is solved. Pick another course or review what’s due.");return;}shOpen(nx.id);return;}
+  if(d.shnextq){shNextQ();return;}
   if(d.shrandom){shLoadBank();var pool=SH.bank.filter(function(i){return shStatus(i.id)==="unsolved"&&(!SH.f.cat||i.category===SH.f.cat)&&(!SH.f.kind||i.kind===SH.f.kind)&&(!SH.f.diff||i.difficulty===SH.f.diff);});if(!pool.length){toast("Nothing unsolved matches");return;}shOpen(shP(pool).id);return;}
   if(d.shback){SH.open="";shRedrawBank();return;}
   var it=shBankById(SH.open);if(!it)return;
