@@ -1,20 +1,21 @@
 # Trader practice
 
-Mental-maths and trading-interview practice in your browser: a timed maths trainer with test replicas, 14 short technique lessons with drills, and 210 trader-style questions with worked solutions.
+Mental-maths, trading-interview and ML-interview practice in your browser: a timed maths trainer with test replicas, 14 short technique lessons with drills, 210 trader-style questions and 262 machine-learning interview questions, all with worked solutions.
 
 ## Start
 
-1. Download or clone this repository.
-2. Double-click **`index.html`**. It opens in your browser, and that's it: no install, no account, no server.
+**On a phone or any computer:** open <https://juanmediavillaa.github.io/trader-practice/>. On a phone, use *Share → Add to Home Screen* (iPhone) or *⋮ → Add to Home screen* (Android) to keep it one tap away. Timed rounds show an on-screen keypad on touch screens.
+
+**Offline copy:** download or clone this repository and double-click **`index.html`**. No install, no account, no server.
 
 It needs an internet connection the first time, to load fonts and the maths typesetting (KaTeX). Everything else runs locally.
 
-Your progress is saved in that browser on that computer. Use **Export** in the sidebar now and then to download a backup, and **Import** to restore it, for example on another computer.
+Your progress is saved in that browser on that device. Use **Export** in the menu now and then to download a backup, and **Import** to restore it, for example on another device.
 
 ## What's inside
 
 ### Maths trainer
-- **Optiver-style 80 in 8:** 80 questions in 8 minutes, no calculator. Integers, decimals, fractions, percentages and missing numbers. Enter submits; +1 right, −1 wrong.
+- **Optiver-style 80 in 8:** 80 questions in 8 minutes, no calculator. Integers, decimals, fractions, percentages and missing numbers. Enter (or Submit on the keypad) submits; +1 right, −1 wrong.
 - **Sequences test:** 24 next-term questions in 12 minutes.
 - **Classic:** 120 seconds of Zetamac-style + − × ÷. It moves on as soon as you're right.
 - **Custom and Weak spots:** pick question types. Weak spots leans towards your slowest and least accurate types.
@@ -41,6 +42,27 @@ How they work:
 - **Estimation questions** accept answers within a factor of 3.
 - **Review:** questions you miss come back after 1, 3, 7 and 21 days.
 
+### ML interview
+262 questions for ML engineer, research engineer and quant-research interviews, modelled on the UCL MSc Machine Learning courses and their past papers:
+- Supervised Learning (27)
+- Probabilistic & Unsupervised (27)
+- Approximate Inference (24)
+- Bayesian Deep Learning (24)
+- Reinforcement Learning (25)
+- IR & Data Mining (26)
+- Learning Theory (27)
+- Optimisation (20)
+- ML fundamentals (25)
+- Deep learning & LLMs (25)
+- Applied ML scenarios (12)
+
+Kinds: basics, exam-style (often multi-part), concept, derivation, calculation and scenario ("your model does X, what do you check?").
+
+How they work:
+- **Basics first.** Each course (apart from the applied scenarios) starts with short basics questions that build towards the harder ones. **Next question** always gives you the next unsolved one, easiest first: basics → easy → medium → hard. "Warm up first" and "Builds towards" links connect each question with its stepping stones.
+- **Free-text answers** show a model answer (key points, derivation, intuition and the common trap) to mark yourself against. Calculation answers are checked automatically.
+- **Review** works as for the trader questions.
+
 ## Tips
 
 - Warm up with one Classic round, then do one lesson and its drill, then take an 80-in-8 to see whether the technique holds under time pressure.
@@ -48,5 +70,5 @@ How they work:
 
 ## Notes
 
-- Questions are written in our own words. Some adapt classic interview problems (for example from Zhou's *A Practical Guide to Quantitative Finance Interviews*) and say so on the question.
+- Questions are written in our own words. Some adapt classic interview problems (for example from Zhou's *A Practical Guide to Quantitative Finance Interviews*) and say so on the question. Exam-style ML questions are reworded, with new numbers, and name the paper whose style they follow.
 - Everything lives in this one `index.html` file.
