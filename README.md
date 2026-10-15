@@ -1,6 +1,6 @@
 # Trader practice
 
-Mental-maths, trading-interview and ML-interview practice in your browser: a timed maths trainer with test replicas, 14 short technique lessons with drills, 210 trader-style questions and 262 machine-learning interview questions, all with worked solutions, plus quick-scan cheat sheets for ML and trader maths.
+Mental-maths, trading-interview and ML-interview practice in your browser: a timed maths trainer with test replicas, 14 short technique lessons with drills, 210 trader-style questions and 262 machine-learning interview questions, all with worked solutions, plus exam-style formula sheets for ML and trader maths.
 
 ## Start
 
@@ -64,11 +64,11 @@ How they work:
 - **Review** works as for the trader questions.
 
 ### Cheat sheets
-One for ML and one for trader maths, organised by topic, to scan before or during practice:
-- **ML:** shapes and matrix products (layers, attention, convolutions, parameter counts), linear algebra, matrix calculus, probability, distribution families with their shapes, Gaussian identities, estimation and conjugate updates, information theory, linear models and loss shapes, optimisation, deep learning, inference and sampling, kernels and GPs, RL, learning theory, and metrics.
-- **Trader:** mental-maths tricks and tables (squares, fractions, constants), counting, probability rules, expected value, distributions, normal and CLT, random walks and ruin, Kelly, market making, options (payoff diagrams, Greeks, Black–Scholes), statistics, sequences, comparisons, Fermi anchors, and classic puzzle answers.
+Exam-style formula sheets, one for ML and one for trader maths: formulas and definitions grouped by topic, with a few words where needed and no worked answers.
+- **ML:** shapes, linear algebra, matrix calculus, probability, distributions, Gaussians, estimation and Bayes, information theory, models and losses, optimisation, deep learning, inference and sampling, kernels and GPs, reinforcement learning, learning theory, and metrics.
+- **Trader:** counting (by whether order matters and whether repetition is allowed), probability rules, expectation and variance, distributions (by situation), normal and CLT, random walks and Markov chains, options, market making, statistics, sequences and series, algebra, and inequalities.
 
-Search filters the sheet as you type, and the topic chips jump to a section. Common derivations fold out under **Derivation**. On a question, **Cheat sheet** opens it on top of the question, so you keep your place; on a computer, **Alt+C** opens it from anywhere.
+Search filters the sheet as you type, and the topic buttons jump to a section. On a question, **Cheat sheet** opens it on top of the question, so you keep your place; on a computer, **Alt+C** opens it from anywhere.
 
 ## Tips
 
