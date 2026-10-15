@@ -41,6 +41,7 @@ How they work:
 - **Free-text answers** (market-making reasoning, strategy) show a model answer to mark yourself against.
 - **Estimation questions** accept answers within a factor of 3.
 - **Review:** questions you miss come back after 1, 3, 7 and 21 days.
+- **Lessons:** 28 short lessons, one per problem type (conditional probability, Bayes, waiting times, optimal stopping, Kelly, adverse selection, …). Each explains the maths and the intuition, lists the usual traps and works through a fresh example. Every trader question belongs to one lesson: **Start practising** takes you through its questions, easiest first, and once you've tried a question its lesson is one click away.
 
 ### ML interview
 262 questions for ML engineer, research engineer and quant-research interviews, modelled on the UCL MSc Machine Learning courses and their past papers:
