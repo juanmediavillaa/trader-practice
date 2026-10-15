@@ -1,6 +1,6 @@
 # Trader practice
 
-Mental-maths, trading-interview and ML-interview practice in your browser: a timed maths trainer with test replicas, 14 short technique lessons with drills, 210 trader-style questions and 262 machine-learning interview questions, all with worked solutions.
+Mental-maths, trading-interview and ML-interview practice in your browser: a timed maths trainer with test replicas, 14 short technique lessons with drills, 210 trader-style questions and 262 machine-learning interview questions, all with worked solutions, plus quick-scan cheat sheets for ML and trader maths.
 
 ## Start
 
@@ -62,6 +62,13 @@ How they work:
 - **Basics first.** Each course (apart from the applied scenarios) starts with short basics questions that build towards the harder ones. **Next question** always gives you the next unsolved one, easiest first: basics → easy → medium → hard. "Warm up first" and "Builds towards" links connect each question with its stepping stones.
 - **Free-text answers** show a model answer (key points, derivation, intuition and the common trap) to mark yourself against. Calculation answers are checked automatically.
 - **Review** works as for the trader questions.
+
+### Cheat sheets
+One for ML and one for trader maths, organised by topic, to scan before or during practice:
+- **ML:** shapes and matrix products (layers, attention, convolutions, parameter counts), linear algebra, matrix calculus, probability, distribution families with their shapes, Gaussian identities, estimation and conjugate updates, information theory, linear models and loss shapes, optimisation, deep learning, inference and sampling, kernels and GPs, RL, learning theory, and metrics.
+- **Trader:** mental-maths tricks and tables (squares, fractions, constants), counting, probability rules, expected value, distributions, normal and CLT, random walks and ruin, Kelly, market making, options (payoff diagrams, Greeks, Black–Scholes), statistics, sequences, comparisons, Fermi anchors, and classic puzzle answers.
+
+Search filters the sheet as you type, and the topic chips jump to a section. Common derivations fold out under **Derivation**. On a question, **Cheat sheet** opens it on top of the question, so you keep your place; on a computer, **Alt+C** opens it from anywhere.
 
 ## Tips
 
