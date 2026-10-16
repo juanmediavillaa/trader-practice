@@ -88,6 +88,7 @@ svg{max-width:100%}
 .at-bar .small{flex:1;min-width:0}
 .at-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
 .at-bar.off .at-dot{background:var(--ink-3)}
+.at-tag{font-size:11px;font-weight:650;letter-spacing:.02em;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--ok) 16%,var(--surface));color:var(--ok)}
 .side-timer .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
 .side-foot{margin-top:auto;display:grid;gap:8px;padding:12px 6px 0;border-top:1px solid var(--line)}
@@ -986,8 +987,8 @@ body.cs-lock{overflow:hidden}
 }
 @media print{.cs-bar,.cs-over{display:none!important}.cs-sheet{columns:3;column-gap:18px}}
 /* ---------- problem-type lessons ---------- */
-.pl-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 12px;align-items:start;padding:7px 0;border-top:1px solid var(--line)}
-.pl-row:first-of-type{border-top:0}
+.pl-crow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 12px;align-items:start;padding:7px 0;border-top:1px solid var(--line)}
+.pl-crow:first-of-type{border-top:0}
 .pl-cat{font-size:12.5px;font-weight:600;color:var(--ink-3);padding-top:5px}
 .pl-chips{display:flex;flex-wrap:wrap;gap:6px}
 .pl-chip{font:inherit;font-size:13px;display:inline-flex;gap:8px;align-items:center;padding:4px 11px;border:1px solid var(--line-strong);border-radius:999px;background:var(--surface);color:var(--ink);cursor:pointer;text-align:left}
@@ -1008,7 +1009,7 @@ body.cs-lock{overflow:hidden}
 .pl-tech h4{margin:0 0 5px;font-size:15px;font-weight:650;line-height:1.4}
 .pl-lesson p.pl-when{font-size:13.5px;color:var(--ink-2);margin-bottom:7px}
 .pl-lesson p.pl-see{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:2px 0 0}
-@media (max-width:760px){.pl-row{grid-template-columns:minmax(0,1fr)}.pl-cat{padding-top:0}}
+@media (max-width:760px){.pl-crow{grid-template-columns:minmax(0,1fr)}.pl-cat{padding-top:0}}
 
 /* ---------- phones ---------- */
 .kp{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:340px;margin:0 auto 10px}
@@ -1286,7 +1287,7 @@ function shPLCard(){var tr=shIsML()?"ml":"trader",mine=SH_PLESSONS.filter(functi
   var L=shS().plearn||{},done=mine.filter(function(l){return L[l.id];}).length,CN=tr==="ml"?ML_CATS:SH_CATS;
   return '<div class="card"><div class="card-h"><h2>Lessons</h2><span class="small">'+done+' of '+mine.length+' learned · one per problem type, each with its questions</span></div>'+
     Object.keys(CN).map(function(c){var ls=mine.filter(function(l){return l.cat===c;});if(!ls.length)return "";
-      return '<div class="pl-row"><span class="pl-cat">'+esc(CN[c])+'</span><div class="pl-chips">'+ls.map(function(l){
+      return '<div class="pl-crow"><span class="pl-cat">'+esc(CN[c])+'</span><div class="pl-chips">'+ls.map(function(l){
         return '<button class="pl-chip'+(L[l.id]?' done':'')+'" data-plesson="'+esc(l.id)+'">'+(L[l.id]?'✓ ':'')+esc(l.title)+'<span>'+shPLSolved(l)+'/'+l.qs.length+'</span></button>';}).join("")+'</div></div>';}).join("")+'</div>';}
 function shPLView(l){var L=shS().plearn||{},qs=shPLQs(l),s=shPLSolved(l),exs=[l.ex].concat(l.more_ex||[]);
   var ps=function(a){return (a||[]).map(function(p){return '<p class="tex">'+esc(p)+'</p>';}).join("");};
