@@ -63,6 +63,7 @@ How they work:
 - **Basics first.** Each course (apart from the applied scenarios) starts with short basics questions that build towards the harder ones. **Next question** always gives you the next unsolved one, easiest first: basics → easy → medium → hard. "Warm up first" and "Builds towards" links connect each question with its stepping stones.
 - **Free-text answers** show a model answer (key points, derivation, intuition and the common trap) to mark yourself against. Calculation answers are checked automatically.
 - **Review** works as for the trader questions.
+- **Lessons:** 48 short lessons, a few per course (e.g. Supervised Learning: Bayes classifiers, ridge and kernels, boosting, online learning, SVMs, graph Laplacians). Each explains the maths and intuition and works a fresh example, and every ML question belongs to one of them, as with the trader lessons.
 
 ### Cheat sheets
 Exam-style formula sheets, one for ML and one for trader maths: formulas and definitions grouped by topic, with a few words where needed and no worked answers.
