@@ -15,7 +15,7 @@ Your progress is saved in that browser on that device. Use **Export** in the men
 ## What's inside
 
 ### Maths trainer
-- **Optiver-style 80 in 8:** 80 questions in 8 minutes, no calculator. Integers, decimals, fractions, percentages and missing numbers. Enter (or Submit on the keypad) submits; +1 right, −1 wrong.
+- **Optiver-style 80 in 8:** 80 questions in 8 minutes, no calculator. Integers, decimals, fractions, percentages and missing numbers. Multiple choice like the real test: four options, tap one (or press 1–4) and it moves straight on, with no skipping or going back; +1 right, −1 wrong.
 - **Sequences test:** 24 next-term questions in 12 minutes.
 - **Classic:** 120 seconds of Zetamac-style + − × ÷. It moves on as soon as you're right.
 - **Custom and Weak spots:** pick question types. Weak spots leans towards your slowest and least accurate types.
